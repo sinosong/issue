@@ -1,4 +1,14 @@
 # 训练脚本
+
+#  warnings.warn(
+#  ==((====))==  Unsloth: Fast Gemma patching release 2024.4
+#     \\   /|    GPU: NVIDIA GeForce RTX 2080 Ti. Max memory: 10.746 GB. Platform = Linux.
+#  O^O/ \_/ \    Pytorch: 2.3.0. CUDA = 7.5. CUDA Toolkit = 11.8.
+#  \        /    Bfloat16 = FALSE. Xformers = 0.0.26.post1. FA = False.
+#  "-____-"     Free Apache license: http://github.com/unslothai/unsloth
+# 因RTX 2080 Ti算力不足，将Bfloat16禁用，设置fp16=True
+# 运行环境：Ubuntu 18.0
+
 from unsloth import FastLanguageModel
 import torch
 
@@ -140,6 +150,7 @@ from transformers import TextStreamer
 text_streamer = TextStreamer(tokenizer)
 _ = model.generate(**inputs, streamer = text_streamer, max_new_tokens = 128)
 
+# 将q4_k_m导入ollama
 model.save_pretrained_gguf("codegemma-esvc", tokenizer, quantization_method = "q4_k_m")
 model.save_pretrained_gguf("codegemma-esvc", tokenizer, quantization_method = "q8_0")
 model.save_pretrained_gguf("codegemma-esvc", tokenizer, quantization_method = "f16")
